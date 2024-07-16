@@ -1,0 +1,39 @@
+//apartado a)
+//damos por hecho que r1 = n, r2 = p
+Comb:
+		push {r4, r5, lr}
+		bl factorial //metemos n(r1) fact
+		mov r3, r0 // guardamos en r3 el fact de n
+		mov r4, r1 //guardamos en r4 n
+		mov r1, r2 // movemos p a r1
+		bl factorial // hacemos factorial de p
+		mov r5, r0 //metemos en r5 el fact de p
+		sub r1, r4, r1 //restamos n - p y lo guardamos en r1
+		bl factorial //hacemos factorial
+		mul r2, r0, r5 //multiplicamos p! y n-p!
+		mov r1, r3 // movemos el fact de n a r1
+		bl dividir //dividimos
+		pop {r4, r5, lr}
+		mov pc, lr //devolvemos la posicion de la llamada a la subrutina
+//apartado b)
+factorial:
+		mov r0, #1 //damos el valor 1 a r0
+for:
+		cmp r1, #1 //comparamor r1(n, p o n-p) con 1
+		beq finfor //si son se acaba el bucle
+		mul r0, r1, r0 //multiplicamos r1 con r0
+		sub r1, r1, #1 //restamos a r1, 1 
+		b for //vuelta al inicio del for
+finfor:
+		mov pc, lr //devolvemos la posicion de la llamada a la subrutina
+		
+dividir:
+		mov r0, #0 //damos el valor 0 r0(cociente)
+while:
+		cmp r1, r2 //comparamos m y n
+		blt finW //si r1 es menor que r2 se acaba el bucle
+		sub r1, r1, r2 //restamos m - n
+		add r0, r0, #1 //sumamos c + 1 
+		b while // vuelta al inicio del while
+finW:	
+		mov pc, lr //devolvemos la posicion de la llamada a la subrutina
